@@ -1,4 +1,4 @@
-name: CI
+name: Test and Save Results
 
 on:
   push:
@@ -7,17 +7,33 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-      - name: Run a multi-line script
+      - name: Install dependencies
         run: |
-          echo "Add other actions to build,"
-          echo "test, and deploy your project."
+          python -m pip install --upgrade pip
+          if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+          pip install pytest pytest-cov
+
+      - name: Prepare results directory
+        run: mkdir -p tests/results
+
+      - name: Run tests (pytest)
+        run: |
+          pytest -q --junitxml=tests/results/junit.xml \
+                 --cov=src --cov-report=xml:tests/results/coverage.xml
+
+      - name: Upload test & coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: tests/results/
