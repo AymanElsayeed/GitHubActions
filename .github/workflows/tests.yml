@@ -31,9 +31,10 @@ jobs:
         with:
           name: junit-report
           path: tests/results/coverage.html
-      - name: run lint
+      - name: run-lint
         run: "pylint --output-format=parseable:art_pylint.output.txt --fail-under=8 ./*"
       - name: upload-lint-report
         uses: actions/upload-artifact@v4
         with:
           name: linter-report
+          path: art_pylint.output.txt
