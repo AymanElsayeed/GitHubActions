@@ -4,7 +4,7 @@ Unit tests for src module.
 
 """
 import pytest
-from src import src
+from ..src import src
 
 @pytest.fixture
 def a():
