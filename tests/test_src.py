@@ -1,5 +1,10 @@
-import pytest
+"""
 
+Unit tests for src module.
+
+"""
+import pytest
+from src import src
 
 @pytest.fixture
 def a():
@@ -9,4 +14,4 @@ def b():
     return 2
 
 def test_addition(a, b):
-    assert a + b == 3
+    assert src.sum_two_numbers(a,b) == 3
