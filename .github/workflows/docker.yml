@@ -28,6 +28,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
+          flavor: |
+                  latest=true
+                  lower=true
           tags: |
                 type=sha,format=short,prefix=,suffix=
                 type=sha,format=long,prefix=,suffix=
