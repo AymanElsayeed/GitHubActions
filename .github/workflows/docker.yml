@@ -40,4 +40,4 @@ jobs:
           push: true
           labels: aymanelsayeed/test
           tags: |
-                ghcr.io/aymanelsayeed/my-app:latest
+                aymanelsayeed/my-app:latest
