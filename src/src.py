@@ -1,3 +1,8 @@
+"""
+
+This module provides a function to sum two numbers.
+
+"""
 
 def sum_two_numbers (a: int, b: int):
     """
