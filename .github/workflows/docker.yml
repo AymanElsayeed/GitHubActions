@@ -20,7 +20,8 @@ jobs:
       - name: login-registry
         uses: docker/login-action@v3.6.0
         with:
-          username: ${{ secrets.DOCKER_USER }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Extract Docker metadata
