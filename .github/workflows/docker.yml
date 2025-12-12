@@ -32,7 +32,6 @@ jobs:
                 type=sha,format=short,prefix=,suffix=
                 type=sha,format=long,prefix=,suffix=
                 type=ref,event=branch,prefix=,suffix=
-                lower=true
 
       - name: build-and-push
         uses: docker/build-push-action@v6.18.0
@@ -40,4 +39,6 @@ jobs:
           context: .
           push: true
           labels: aymanelsayeed/test
-          tags: ghcr.io/${{ github.repository_owner }}/my-app:latest
+          tags: |
+                ghcr.io/${{ github.repository_owner }}/my-app:latest
+                lower=true
