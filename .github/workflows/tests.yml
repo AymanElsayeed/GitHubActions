@@ -21,8 +21,13 @@ jobs:
         run: pip install -r requirements.txt
       - name: run-tests
         run: pytest -q --junitxml=tests/results/junit.xml --cov=src --cov-report=xml:tests/results/coverage.xml
-      - name: upload-coverage
+      - name: upload-coverage-junit
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: tests/results/junit.xml
+      - name: upload-coverage-xml
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report
+          path: tests/results/coverage.xml
