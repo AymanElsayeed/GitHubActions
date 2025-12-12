@@ -10,7 +10,10 @@ jobs:
       - name: step-1
         uses: actions/checkout@v4.0.0
       - name: step-2
-        run: env | sort
+        uses: itsvinayak/pylint-and-format@v1.1
+        with:
+          filename: src.py
+          
 
   job2:
     needs: job1
