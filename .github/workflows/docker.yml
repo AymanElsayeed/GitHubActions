@@ -39,4 +39,4 @@ jobs:
           context: .
           push: true
           labels: aymanelsayeed/test
-          tags: ghcr.io/${{ github.repository_owner }}/my-app:latest
+          tags: ghcr.io/${{ github.repository_owner.lower() }}/my-app:latest
