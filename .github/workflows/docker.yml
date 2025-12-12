@@ -41,4 +41,4 @@ jobs:
           # labels: aymanelsayeed/test
           labels: ${{ steps.metadata.outputs.labels }}
           tags: |
-                aymanelsayeed/${{ github.repository.lower() }}:latest
+                aymanelsayeed/${{ github.repository }}:latest
