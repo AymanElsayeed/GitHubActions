@@ -28,9 +28,6 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
-          flavor: |
-                  latest=true
-                  lower=true
           tags: |
                 type=sha,format=short,prefix=,suffix=
                 type=sha,format=long,prefix=,suffix=
@@ -43,5 +40,5 @@ jobs:
           push: true
           labels: aymanelsayeed/test
           tags: |
-                ghcr.io/${{ github.repository_owner }}/my-app:latest
+                ghcr.io/aymanelsayeed/my-app:latest
                 lower=true
