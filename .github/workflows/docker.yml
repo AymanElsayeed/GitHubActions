@@ -41,4 +41,3 @@ jobs:
           labels: aymanelsayeed/test
           tags: |
                 ghcr.io/aymanelsayeed/my-app:latest
-                lower=true
