@@ -27,8 +27,7 @@ jobs:
         id: metadata
         uses: docker/metadata-action@v5
         with:
-          github-token: ${{ secrets.DOCKER_TOKEN }}
-          # images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/${{ github.repository }}
           tags: |
                 type=sha,format=short,prefix=,suffix=
                 type=sha,format=long,prefix=,suffix=
@@ -39,6 +38,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: test
           labels: aymanelsayeed/test
-          # tags: ghcr.io/${{ github.repository_owner }}/my-app:latest
+          tags: ghcr.io/${{ github.repository_owner }}/my-app:latest
