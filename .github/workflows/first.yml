@@ -1,0 +1,23 @@
+name: first
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  job1:
+    name: first-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: step-1
+        run: echo "This is first job's step-1"
+      - name: step-2
+        run: echo "This is first job's step-2"
+
+  job2:
+    name: second-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: step-1
+        run: echo "This is second job's step-1"
+      - name: step-2
+        run: echo "This is second job's step-2"
+
