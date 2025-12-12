@@ -3,6 +3,8 @@
 Unit tests for src module.
 
 """
+#pylint: disable=W0621
+
 import pytest
 from ..src import src
 
@@ -23,7 +25,7 @@ def b():
 
 def test_addition(a, b):
     """
-    Test addition of two numbers
+    Test addition of two numbers.
     :param a: the first number
     :param b: the second number
     :return: none
