@@ -22,7 +22,7 @@ jobs:
       - name: run-tests
         run: pytest -q --junitxml=tests/results/junit.xml --cov=src --cov-report=xml:tests/results/coverage.xml
       - name: upload-coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: tests/results/junit.xml
