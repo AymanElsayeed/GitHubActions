@@ -14,6 +14,6 @@ stages:
                 - task: AzureWebAppContainer@1
                   displayName: Deploy container to Azure Web App
                   inputs:
-                    azureSubscription: '1a9fd121-57a1-4599-9a24-d2d1b348b8a1'
+                    azureSubscription: 'de7b8a46-269f-4468-9097-4c64949af360'
                     appName: 'aymanexample1'
                     containers: docker.io/aymanelsayeed/githubactions:latest
