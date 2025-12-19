@@ -1,51 +1,19 @@
-# Python to Linux Web App on Azure
-# Build your Python project and deploy it to Azure as a Linux Web App.
-# Change python version to one thats appropriate for your application.
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
-trigger:
-  branches:
-    include:
-      - Feature1
-variables:
-  # Azure Resource Manager connection created during pipeline creation
-  azureServiceConnectionId: 'a67cca28-4d54-4fea-8043-a024ba5f1841'
-
-  # Web app name
-  webAppName: 'Example'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-  # Environment name
-  environmentName: 'Example'
-
-  # Project root folder. Point to the folder containing manage.py file.
-  projectRoot: $(System.DefaultWorkingDirectory)
-
-  pythonVersion: '3.11'
+trigger: none   # Build is handled by GitHub Actions
 
 stages:
-
   - stage: Deploy
-    displayName: 'Deploy Web App'
-    condition: succeeded()
+    displayName: Deploy to Azure Web App
     jobs:
-      - deployment: DeploymentJob
-        pool:
-          vmImage: $(vmImageName)
-        environment: $(environmentName)
+      - deployment: DeployFastAPI
+        displayName: Deploy FastAPI from Docker Hub
+        environment: example
         strategy:
           runOnce:
             deploy:
               steps:
-                - task: UsePythonVersion@0
+                - task: AzureWebAppContainer@1
+                  displayName: Deploy container to Azure Web App
                   inputs:
-                    versionSpec: '$(pythonVersion)'
-                  displayName: 'Use Python version'
-                - task: AzureWebApp@1
-                  displayName: 'Deploy Azure Web App : '
-                  inputs:
-                    azureSubscription: $(azureServiceConnectionId)
-                    appName: $(webAppName)
-                    containers: aymanelsayeed/githubactions:latest
+                    azureSubscription: '1a9fd121-57a1-4599-9a24-d2d1b348b8a1'
+                    appName: 'aymanexample1'
+                    containers: docker.io/aymanelsayeed/githubactions:latest
