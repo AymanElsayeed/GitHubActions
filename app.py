@@ -10,7 +10,7 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
-@app.get('/sleep/async-aio')
+@app.get('/')
 async def aio_sleep():
     await asyncio.sleep(1)
     return {'error': None}
