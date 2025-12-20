@@ -48,7 +48,6 @@ jobs:
                 aymanelsayeed/githubactions:latest
 
       - name: Trigger Azure Deployment Pipeline
-        depends-on: [build-and-push]
         env:
           AZURE_DEVOPS_PAT: ${{ secrets.AZD }}
           AZURE_ORG: ${{ secrets.AZDO_ORG }}
