@@ -59,8 +59,18 @@ jobs:
           -H "Content-Type: application/json" \
           https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/pipelines/$AZDO_PIPELINE_ID/runs?api-version=7.0 \
           -d '{
-          "variables": {
-            "IMAGE_TAG": {
-              "value": "'"$IMAGE_TAG"'"
-            }
+          "variables": {"IMAGE_TAG": {"value": "'"$IMAGE_TAG"'"}
           }}'
+
+      - name: Trigger Azure Pipeline2
+        env:
+          AZURE_DEVOPS_PAT: ${{ secrets.AZD }}
+          AZURE_ORG: ${{ secrets.AZDO_ORG }}
+          AZURE_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          PIPELINE_ID: ${{ secrets.AZDO_PIPELINE_ID }}
+        run: |
+          curl -X POST\
+          -u ":${AZURE_DEVOPS_PAT}"\
+          -H "Content-Type: application/json" \
+          https://dev.azure.com/${AZURE_ORG}/${AZURE_PROJECT}/_apis/pipelines/${PIPELINE_ID}/runs?api-version=7.1 \
+          -d '{"resources": {"repositories": {"self": {"refName": "refs/heads/main"}}}}'
