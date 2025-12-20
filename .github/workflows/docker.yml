@@ -74,4 +74,4 @@ jobs:
           -u ":${AZURE_DEVOPS_PAT}" \
           -H "Content-Type: application/json" \
           https://dev.azure.com/${AZURE_ORG}/${AZURE_PROJECT}/_apis/pipelines/${PIPELINE_ID}/runs?api-version=7.1 \
-          -d '{"templateParameters": {"dockerImage": "${{ secrets.DOCKERHUB_USERNAME }}/your-image-name:${{ github.sha }}"}}'
+          -d  '{"resources": {"repositories": {"self": {"refName": "refs/heads/Feature1"}}},"parameters": {"IMAGE_TAG": "'"$IMAGE_TAG"'"}}'
