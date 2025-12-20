@@ -46,23 +46,8 @@ jobs:
           labels: ${{ steps.metadata.outputs.labels }}
           tags: |
                 aymanelsayeed/githubactions:latest
-      - name: Trigger Azure Deployment
-        env:
-          AZDO_ORG: ${{ secrets.AZDO_ORG }}
-          AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
-          AZDO_PIPELINE_ID: ${{ secrets.AZDO_PIPELINE_ID }}
-          AZD: ${{ secrets.AZDO }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          curl -u ":${AZD}" \
-          -X POST \
-          -H "Content-Type: application/json" \
-          https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/pipelines/$AZDO_PIPELINE_ID/runs?api-version=7.0 \
-          -d '{
-          "variables": {"IMAGE_TAG": {"value": "'"$IMAGE_TAG"'"}
-          }}'
 
-      - name: Trigger Azure Pipeline2
+      - name: Trigger Azure Deployment Pipeline
         env:
           AZURE_DEVOPS_PAT: ${{ secrets.AZD }}
           AZURE_ORG: ${{ secrets.AZDO_ORG }}
