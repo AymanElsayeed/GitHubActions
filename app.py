@@ -46,7 +46,7 @@ def health_check():
         </style>
     </head>
     <body>
-        <div class="status"> ✅ HEALTHY by Ayman ABC </div>
+        <div class="status"> ✅ HEALTHY by Ayman</div>
         <div class="meta">
             <p>Service: FastAPI</p>
             <p>Time (UTC): {datetime.utcnow().isoformat()}</p>
