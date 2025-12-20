@@ -54,7 +54,7 @@ jobs:
           AZD: ${{ secrets.AZDO }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          curl -u :${AZD} \
+          curl -u ":${AZD}" \
           -X POST \
           -H "Content-Type: application/json" \
           https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/pipelines/$AZDO_PIPELINE_ID/runs?api-version=7.0 \
@@ -68,9 +68,10 @@ jobs:
           AZURE_ORG: ${{ secrets.AZDO_ORG }}
           AZURE_PROJECT: ${{ secrets.AZDO_PROJECT }}
           PIPELINE_ID: ${{ secrets.AZDO_PIPELINE_ID }}
+          IMAGE_TAG: 'latest'
         run: |
           curl -X POST \
           -u ":${AZURE_DEVOPS_PAT}" \
           -H "Content-Type: application/json" \
           https://dev.azure.com/${AZURE_ORG}/${AZURE_PROJECT}/_apis/pipelines/${PIPELINE_ID}/runs?api-version=7.1 \
-          -d ''
+          -d '{"templateParameters": {},"variables": {"imageTag": {"value": "'${IMAGE_TAG}'","isSecret": false}}}'
