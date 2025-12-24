@@ -1,62 +1,43 @@
-"""
+from flask import Flask, Blueprint, jsonify
+from flask_restplus import Api
+from ma import ma
+from db import db
 
-A simple FastAPI application.
+from resources.store import Store, StoreList, store_ns, stores_ns
+from resources.item import Item, ItemList, items_ns, item_ns
+from marshmallow import ValidationError
 
-"""
+app = Flask(__name__)
+bluePrint = Blueprint('api', __name__, url_prefix='/api')
+api = Api(bluePrint, doc='/doc', title='Sample Flask-RestPlus Application')
+app.register_blueprint(bluePrint)
 
-import asyncio
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-from datetime import datetime
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
-app = FastAPI()
-
-
-@app.get('/')
-async def aio_sleep():
-    await asyncio.sleep(1)
-    return {'error': None}
-
-@app.get("/health", response_class=HTMLResponse, tags=["Health"])
-def health_check():
-    return f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Health Check</title>
-        <style>
-            body {{
-                font-family: Arial, sans-serif;
-                background-color: #f4f6f8;
-                text-align: center;
-                padding-top: 50px;
-            }}
-            .status {{
-                display: inline-block;
-                padding: 20px 40px;
-                background-color: #4CAF50;
-                color: white;
-                font-size: 24px;
-                border-radius: 8px;
-            }}
-            .meta {{
-                margin-top: 15px;
-                color: #555;
-            }}
-        </style>
-    </head>
-    <body>
-        <div class="status"> ✅ HEALTHY by Ayman 99999999</div>
-        <div class="meta">
-            <p>Service: FastAPI</p>
-            <p>Time (UTC): {datetime.utcnow().isoformat()}</p>
-        </div>
-    </body>
-    </html>
-    """
+api.add_namespace(item_ns)
+api.add_namespace(items_ns)
+api.add_namespace(store_ns)
+api.add_namespace(stores_ns)
 
 
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+
+@api.errorhandler(ValidationError)
+def handle_validation_error(error):
+    return jsonify(error.messages), 400
+
+
+item_ns.add_resource(Item, '/<int:id>')
+items_ns.add_resource(ItemList, "")
+store_ns.add_resource(Store, '/<int:id>')
+stores_ns.add_resource(StoreList, "")
 
 if __name__ == '__main__':
-    import uvicorn
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    db.init_app(app)
+    ma.init_app(app)
+    app.run(port=5000, debug=True,host='0.0.0.0')
