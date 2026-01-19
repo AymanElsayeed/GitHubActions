@@ -3,7 +3,7 @@ name: release.yml
 on:
   push:
     branches:
-      - "**"
+      - "master"
   workflow_dispatch:
 jobs:
   release:
