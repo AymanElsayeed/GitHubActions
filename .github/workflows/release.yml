@@ -1,5 +1,4 @@
 name: release.yml
-
 on:
   push:
     branches:
