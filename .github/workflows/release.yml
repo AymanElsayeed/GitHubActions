@@ -13,8 +13,6 @@ jobs:
     name: create release
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-
     outputs:
       version: ${{ steps.extract_version.outputs.VERSION }}
     permissions:
