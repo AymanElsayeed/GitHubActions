@@ -36,7 +36,6 @@ jobs:
         run: |
           SANITIZED_ACTOR=$(echo "${{ github.actor }}" | tr -d '[]')
           echo "sanitized_actor=$SANITIZED_ACTOR" >> "$GITHUB_OUTPUT"
-
       - name: Check if tag already exists
         run: |
           git fetch --tags
