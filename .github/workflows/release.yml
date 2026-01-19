@@ -36,6 +36,15 @@ jobs:
         run: |
           SANITIZED_ACTOR=$(echo "${{ github.actor }}" | tr -d '[]')
           echo "sanitized_actor=$SANITIZED_ACTOR" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag already exists
+        run: |
+          git fetch --tags
+          if git rev-parse "${{ steps.extract_version.outputs.VERSION }}" >/dev/null 2>&1; then
+            echo "❌ Tag already exists: ${{ steps.extract_version.outputs.VERSION }}"
+            exit 1
+          fi
+
       - name: Create GitHub Release
         if: steps.extract_version.outputs.VERSION != ''
         uses: softprops/action-gh-release@v1
