@@ -1,0 +1,29 @@
+name: multi-job
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6.0.1
+
+      - name: Build a code
+        run: echo "building ..."
+
+      - name: Test code
+        run: echo "testing ..."
+
+      - name: Package code
+        run: echo "packaging ..."
+  job2:
+    needs: job1
+    runs-on: windows-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6.0.1
+      - name: deploy
+        run: echo "deploying ..."

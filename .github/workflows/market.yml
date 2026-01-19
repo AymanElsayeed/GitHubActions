@@ -1,0 +1,37 @@
+name: market
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  job1:
+    name: first-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: step-1
+        uses: actions/checkout@v4.0.0
+      - name: step-2
+        uses: itsvinayak/pylint-and-format@v1.1
+        with:
+          filename: src/src.py
+          
+
+  job2:
+    needs: job1
+    name: second-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: step-1
+        uses: actions/checkout@v4.0.0
+      - name: step-2
+        uses: "docker://python:3.14"
+      - name: step-3
+        run: ls -alr
+  job3:
+    needs: [job1, job2]
+    name: third-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: step-1
+        uses: actions/checkout@v4.0.0
+      - name: step-2
+        run: env | sort

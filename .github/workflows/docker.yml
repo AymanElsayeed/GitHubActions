@@ -1,0 +1,62 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - Feature1
+
+jobs:
+
+  build:
+    name: docker-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      REGISTRY: ghcr.io
+      
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4.0.0
+      - name: setup-buildx
+        uses: docker/setup-buildx-action@v3
+      - name: login-registry
+        uses: docker/login-action@v3.6.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
+
+      - name: Extract Docker metadata
+        id: metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+                type=sha,format=short,prefix=,suffix=,lower=true
+                type=sha,format=long,prefix=,suffix=,lower=true
+                type=ref,event=branch,prefix=,suffix=,lower=true
+
+      - name: build-and-push
+        uses: docker/build-push-action@v6.18.0
+        with:
+          context: .
+          push: true
+          # labels: aymanelsayeed/test
+          labels: ${{ steps.metadata.outputs.labels }}
+          tags: |
+                aymanelsayeed/githubactions:latest
+
+      - name: Trigger Azure Deployment Pipeline
+        env:
+          AZURE_DEVOPS_PAT: ${{ secrets.AZD }}
+          AZURE_ORG: ${{ secrets.AZDO_ORG }}
+          AZURE_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          PIPELINE_ID: ${{ secrets.AZDO_PIPELINE_ID }}
+          IMAGE_TAG: 'latest'
+        run: |
+          curl -X POST \
+          -u ":${AZURE_DEVOPS_PAT}" \
+          -H "Content-Type: application/json" \
+          https://dev.azure.com/${AZURE_ORG}/${AZURE_PROJECT}/_apis/pipelines/${PIPELINE_ID}/runs?api-version=7.1 \
+          -d  '{"resources": {"repositories": {"self": {"refName": "refs/heads/Feature1"}}},"parameters": {"IMAGE_TAG": "'"$IMAGE_TAG"'"}}'
