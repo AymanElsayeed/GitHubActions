@@ -12,7 +12,8 @@ jobs:
   release:
     name: create release
     runs-on: ubuntu-latest
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || startsWith(github.ref, 'refs/tags/v')
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') && contains(github.event.head_commit.message, 'release v')
+
 
     outputs:
       version: ${{ steps.extract_version.outputs.VERSION }}
