@@ -43,7 +43,6 @@ jobs:
             }
             // Try to extract "release vX.Y.Z" from commit message or PR title
             const match = msg.match(/release\s+(v?\d+\.\d+\.\d+)/);
-            // match = msg.match(/release\s+(v?\d+\.\d+\.\d+)/);
             if (match && match[1]) {
               console.log('Found Explicit Version: ' + match[1]);
               core.setOutput('VERSION', match[1]);
